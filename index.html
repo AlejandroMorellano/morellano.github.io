@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <script src="https://unpkg.com/feather-icons"></script>
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Navbar</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+             <!--<li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Home</a>
+              </li>-->
+              <li class="nav-item">
+                <a class="nav-link" href="#"><i data-feather="search"></i>Buscar Gif </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#"><i data-feather="gift"></i>Random Gif</a>
+              </li>
+              <!--<li class="nav-item">
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+              </li>-->
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <div class="container-fluid mt-5">
+        <div class="row">
+            <div class="col">
+                    <div class="form-row form-group">
+                        <label for="search">Buscar GIF</label>
+                        <input type="text" id="search" class="form-control" placeholder="hola">                        
+                    </div>
+            </div>
+            <div class="col col-md-6" id="gifs">
+            </div>
+        </div>
+      </div>
+      <div class="container-fluid" id="content">
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <div id="ran">
+s
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--<script src="./js/funciones.js"></script>-->
+      <script>
+      feather.replace();
+        const API_KEY = 'b031Ih0DbbfVzfTX5plvTGSgn6rQJxaa';
+        const inputSearch = document.getElementById('search');
+        inputSearch.onkeyup = async (event) => {
+            event.preventDefault();//await es una espara a una respuesta
+            if(event.keyCode !== 13) return;//featch coneccion al servicio
+            const response = await fetch(`https://api.giphy.com/v1/gifs/search?api_key=${API_KEY}&q=${inputSearch.value}`);
+            const data = await response.json();
+            console.log(data);
+
+            let content = ``;
+        data.data.map((gif,index) => {
+          content += `
+          <img src="${gif.images.original.url}" class= "mb-3 ms-1" alt="${gif.title}">
+          `;
+        });
+        gifs.innerHTML = content;
+        };
+      </script>
+      
+      <script>
+        feather.replace();
+        window.onload = async (event) => {
+          event.preventDefault();
+          const response = await fetch(`https://api.giphy.com/v1/gifs/random?api_key=${API_KEY}`);
+          const data = await response.json();
+          console.log(data);
+          ran.innerHTML = `
+          <img src="${data.data.images.original.url}" class= "mb-3 ms-1" ">
+          `;
+          
+        }
+      </script>
+
+      <script src="./js/bootstrap.min.js"></script>
+      <script>
+        feather.replace()
+      </script></body>
+</html>
